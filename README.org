@@ -1,0 +1,30 @@
+* watermarker
+
+A command line tool to add watermark on images
+
+** Demo
+
+[[file:example.watermarked.png]]
+
+** Usage
+
+#+BEGIN_EXAMPLE
+NAME:
+   watermark - add watermark on images
+
+USAGE:
+   watermark [OPTIONS] TEXT FILE ...
+
+VERSION:
+   1.0.0
+
+GLOBAL OPTIONS:
+   --color value, -c value               Color for watermark text, name or #rrggbb (default: "blue")
+   --vertical-spacing value, -e value    Vertical spacing between watermarks (default: 40)
+   --font value, -f value                Font for watermark text (default: "Courier")
+   --font-size value, -S value           Font size for watermark text (default: 64)
+   --horizontal-spacing value, -o value  Horizontal spacing between watermarks (default: 40)
+   --scale value, -s value               Scale watermarks (default: 1)
+   --transparency value, -t value        Transparency of watermark (default: 0.05)
+   --version, -v                         print the version
+#+END_EXAMPLE
