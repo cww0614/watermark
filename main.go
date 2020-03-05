@@ -21,37 +21,37 @@ func main() {
 		HideHelp:  true,
 		Version:   "1.0.0",
 		Flags: []cli.Flag{
-			cli.StringFlag{
+			&cli.StringFlag{
 				Name:  "color, c",
 				Value: "blue",
 				Usage: "Color for watermark text, name or #rrggbb",
 			},
-			cli.IntFlag{
+			&cli.IntFlag{
 				Name:  "vertical-spacing, e",
 				Value: 40,
 				Usage: "Vertical spacing between watermarks",
 			},
-			cli.StringFlag{
+			&cli.StringFlag{
 				Name:  "font, f",
 				Value: "Courier",
 				Usage: "Font for watermark text",
 			},
-			cli.IntFlag{
+			&cli.IntFlag{
 				Name:  "font-size, S",
 				Value: 64,
 				Usage: "Font size for watermark text",
 			},
-			cli.IntFlag{
+			&cli.IntFlag{
 				Name:  "horizontal-spacing, o",
 				Value: 40,
 				Usage: "Horizontal spacing between watermarks",
 			},
-			cli.Float64Flag{
+			&cli.Float64Flag{
 				Name:  "scale, s",
 				Value: 1.0,
 				Usage: "Scale watermarks",
 			},
-			cli.Float64Flag{
+			&cli.Float64Flag{
 				Name:  "transparency, t",
 				Value: 0.05,
 				Usage: "Transparency of watermark",
