@@ -31,6 +31,11 @@ func main() {
 				Value: 40,
 				Usage: "Vertical spacing between watermarks",
 			},
+			&cli.IntFlag{
+				Name:  "output-dpi, d",
+				Value: 72,
+				Usage: "DPI of output image",
+			},
 			&cli.StringFlag{
 				Name:  "font, f",
 				Value: "Courier",
@@ -78,6 +83,7 @@ func main() {
 			HorizontalSpacing: c.Int("horizontal-spacing"),
 			VerticalSpacing:   c.Int("vertical-spacing"),
 			FontSize:          c.Int("font-size"),
+			OutputDPI:         c.Int("output-dpi"),
 			FontName:          c.String("font"),
 			Color:             color,
 		}

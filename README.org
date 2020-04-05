@@ -21,6 +21,7 @@ VERSION:
 GLOBAL OPTIONS:
    --color value, -c value               Color for watermark text, name or #rrggbb (default: "blue")
    --vertical-spacing value, -e value    Vertical spacing between watermarks (default: 40)
+   --output-dpi value, -d value          DPI of output image (default: 72)
    --font value, -f value                Font for watermark text (default: "Courier")
    --font-size value, -S value           Font size for watermark text (default: 64)
    --horizontal-spacing value, -o value  Horizontal spacing between watermarks (default: 40)

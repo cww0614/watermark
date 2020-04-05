@@ -18,6 +18,7 @@ type WaterMarker struct {
 	HorizontalSpacing int
 	VerticalSpacing   int
 	FontSize          int
+	OutputDPI         int
 	FontName          string
 	Color             color.Color
 }
@@ -57,7 +58,11 @@ func (w *WaterMarker) mark(img image.Image, format string, out io.Writer) error 
 	width := bounds.Max.X
 	height := bounds.Max.Y
 
-	c := vgimg.New(l(width), l(height))
+	c := vgimg.NewWith(
+		vgimg.UseWH(l(width), l(height)),
+		vgimg.UseDPI(w.OutputDPI),
+	)
+
 	c.DrawImage(vg.Rectangle{Max: vg.Point{X: l(width), Y: l(height)}}, img)
 
 	c.SetColor(w.Color)
