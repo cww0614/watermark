@@ -5,7 +5,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli"
+	"github.com/urfave/cli/v2"
 )
 
 func outputFilename(input string) string {
@@ -22,44 +22,52 @@ func main() {
 		Version:   "1.0.0",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
-				Name:  "color, c",
-				Value: "blue",
-				Usage: "Color for watermark text, name or #rrggbb",
+				Name:    "color",
+				Aliases: []string{"c"},
+				Value:   "blue",
+				Usage:   "Color for watermark text, name or #rrggbb",
 			},
 			&cli.Float64Flag{
-				Name:  "vertical-spacing, e",
-				Value: 40.0,
-				Usage: "Vertical spacing between watermarks",
+				Name:    "vertical-spacing",
+				Aliases: []string{"e"},
+				Value:   40.0,
+				Usage:   "Vertical spacing between watermarks",
 			},
 			&cli.IntFlag{
-				Name:  "output-dpi, d",
-				Value: 72,
-				Usage: "DPI of output image",
+				Name:    "output-dpi",
+				Aliases: []string{"d"},
+				Value:   72,
+				Usage:   "DPI of output image",
 			},
 			&cli.StringFlag{
-				Name:  "font, f",
-				Value: "Courier",
-				Usage: "Font for watermark text",
+				Name:    "font",
+				Aliases: []string{"f"},
+				Value:   "Courier",
+				Usage:   "Font for watermark text",
 			},
 			&cli.Float64Flag{
-				Name:  "font-size, S",
-				Value: 64.0,
-				Usage: "Font size for watermark text",
+				Name:    "font-size",
+				Aliases: []string{"S"},
+				Value:   64.0,
+				Usage:   "Font size for watermark text",
 			},
 			&cli.Float64Flag{
-				Name:  "horizontal-spacing, o",
-				Value: 40.0,
-				Usage: "Horizontal spacing between watermarks",
+				Name:    "horizontal-spacing",
+				Aliases: []string{"o"},
+				Value:   40.0,
+				Usage:   "Horizontal spacing between watermarks",
 			},
 			&cli.Float64Flag{
-				Name:  "scale, s",
-				Value: 1.0,
-				Usage: "Scale watermarks",
+				Name:    "scale",
+				Aliases: []string{"s"},
+				Value:   1.0,
+				Usage:   "Scale watermarks",
 			},
 			&cli.Float64Flag{
-				Name:  "transparency, t",
-				Value: 0.90,
-				Usage: "Transparency of watermark",
+				Name:    "transparency, t",
+				Aliases: []string{"t"},
+				Value:   0.90,
+				Usage:   "Transparency of watermark",
 			},
 		},
 	}

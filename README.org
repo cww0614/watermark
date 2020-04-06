@@ -27,5 +27,5 @@ GLOBAL OPTIONS:
    --horizontal-spacing value, -o value  Horizontal spacing between watermarks (default: 40)
    --scale value, -s value               Scale watermarks (default: 1)
    --transparency value, -t value        Transparency of watermark (default: 0.9)
-   --version, -v                         print the version
+   --version, -v                         print the version (default: false)
 #+END_EXAMPLE
