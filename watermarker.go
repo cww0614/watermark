@@ -15,16 +15,16 @@ import (
 
 type WaterMarker struct {
 	Text              string
-	HorizontalSpacing int
-	VerticalSpacing   int
-	FontSize          int
+	HorizontalSpacing float64
+	VerticalSpacing   float64
+	FontSize          float64
 	OutputDPI         int
 	FontName          string
 	Color             color.Color
 }
 
-func l(v int) vg.Length {
-	return vg.Length(float64(v))
+func l(v float64) vg.Length {
+	return vg.Length(v)
 }
 
 func (w *WaterMarker) Mark(inputFilename, outputFilename string) error {
@@ -55,15 +55,15 @@ func (w *WaterMarker) Mark(inputFilename, outputFilename string) error {
 func (w *WaterMarker) mark(img image.Image, format string, out io.Writer) error {
 	bounds := img.Bounds()
 
-	width := bounds.Max.X
-	height := bounds.Max.Y
+	width := l(float64(bounds.Max.X))
+	height := l(float64(bounds.Max.Y))
 
 	c := vgimg.NewWith(
-		vgimg.UseWH(l(width), l(height)),
+		vgimg.UseWH(width, height),
 		vgimg.UseDPI(w.OutputDPI),
 	)
 
-	c.DrawImage(vg.Rectangle{Max: vg.Point{X: l(width), Y: l(height)}}, img)
+	c.DrawImage(vg.Rectangle{Max: vg.Point{X: width, Y: height}}, img)
 
 	c.SetColor(w.Color)
 
@@ -72,19 +72,19 @@ func (w *WaterMarker) mark(img image.Image, format string, out io.Writer) error 
 		return err
 	}
 
-	textWidth := int(fontStyle.Width(w.Text))
+	textWidth := fontStyle.Width(w.Text)
 	textHeight := w.FontSize
 
-	textBoxWidth := textWidth + w.HorizontalSpacing*2
+	textBoxWidth := float64(textWidth) + w.HorizontalSpacing*2
 	textBoxHeight := textHeight + w.VerticalSpacing*2
 
 	c.Rotate(-math.Pi / 4)
 
-	xOffsetMin := int(-float64(height) / math.Sqrt(2))
-	yOffsetMax := int(float64(width) * math.Sqrt(2))
+	xOffsetMin := -float64(height) / math.Sqrt(2)
+	yOffsetMax := float64(width) * math.Sqrt(2)
 
-	for xOffset := xOffsetMin; xOffset < width; xOffset += textBoxWidth {
-		for yOffset := 0; yOffset < yOffsetMax; yOffset += textBoxHeight {
+	for xOffset := xOffsetMin; xOffset < float64(width); xOffset += textBoxWidth {
+		for yOffset := 0.0; yOffset < yOffsetMax; yOffset += textBoxHeight {
 			c.FillString(fontStyle, vg.Point{
 				X: l(xOffset),
 				Y: l(yOffset),

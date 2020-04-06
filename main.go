@@ -26,9 +26,9 @@ func main() {
 				Value: "blue",
 				Usage: "Color for watermark text, name or #rrggbb",
 			},
-			&cli.IntFlag{
+			&cli.Float64Flag{
 				Name:  "vertical-spacing, e",
-				Value: 40,
+				Value: 40.0,
 				Usage: "Vertical spacing between watermarks",
 			},
 			&cli.IntFlag{
@@ -41,14 +41,14 @@ func main() {
 				Value: "Courier",
 				Usage: "Font for watermark text",
 			},
-			&cli.IntFlag{
+			&cli.Float64Flag{
 				Name:  "font-size, S",
-				Value: 64,
+				Value: 64.0,
 				Usage: "Font size for watermark text",
 			},
-			&cli.IntFlag{
+			&cli.Float64Flag{
 				Name:  "horizontal-spacing, o",
-				Value: 40,
+				Value: 40.0,
 				Usage: "Horizontal spacing between watermarks",
 			},
 			&cli.Float64Flag{
@@ -78,11 +78,13 @@ func main() {
 
 		color.A = uint8(c.Float64("transparency") * 255.0)
 
+		scale := c.Float64("scale")
+
 		waterMarker := &WaterMarker{
 			Text:              text,
-			HorizontalSpacing: c.Int("horizontal-spacing"),
-			VerticalSpacing:   c.Int("vertical-spacing"),
-			FontSize:          c.Int("font-size"),
+			HorizontalSpacing: c.Float64("horizontal-spacing") * scale,
+			VerticalSpacing:   c.Float64("vertical-spacing") * scale,
+			FontSize:          c.Float64("font-size") * scale,
 			OutputDPI:         c.Int("output-dpi"),
 			FontName:          c.String("font"),
 			Color:             color,
