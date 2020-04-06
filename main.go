@@ -58,7 +58,7 @@ func main() {
 			},
 			&cli.Float64Flag{
 				Name:  "transparency, t",
-				Value: 0.05,
+				Value: 0.90,
 				Usage: "Transparency of watermark",
 			},
 		},
@@ -76,7 +76,7 @@ func main() {
 			return err
 		}
 
-		color.A = uint8(c.Float64("transparency") * 255.0)
+		color.A = uint8((1 - c.Float64("transparency")) * 255.0)
 
 		scale := c.Float64("scale")
 
