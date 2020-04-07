@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/urfave/cli/v2"
@@ -11,6 +13,19 @@ import (
 func outputFilename(input string) string {
 	lastDot := strings.LastIndex(input, ".")
 	return input[:lastDot] + ".watermarked" + input[lastDot:]
+}
+
+func readResizeParam(value string) (Size, error) {
+	resizeRe := regexp.MustCompile(`^(\d+)x(\d+)$`)
+	params := resizeRe.FindStringSubmatch(value)
+	if len(params) == 0 {
+		return Size{}, fmt.Errorf(`invalid resize value, should be like widthxheight`)
+	}
+
+	width, _ := strconv.Atoi(params[1])
+	height, _ := strconv.Atoi(params[2])
+
+	return Size{width, height}, nil
 }
 
 func main() {
@@ -33,11 +48,11 @@ func main() {
 				Value:   40.0,
 				Usage:   "Vertical spacing between watermarks",
 			},
-			&cli.IntFlag{
-				Name:    "output-dpi",
-				Aliases: []string{"d"},
-				Value:   72,
-				Usage:   "DPI of output image",
+			&cli.StringFlag{
+				Name:    "resize",
+				Aliases: []string{"r"},
+				Value:   "0x0",
+				Usage:   "Resize the output image to specified width and height. To keep aspect ratio, set either width or height to 0",
 			},
 			&cli.StringFlag{
 				Name:    "font",
@@ -88,14 +103,20 @@ func main() {
 
 		scale := c.Float64("scale")
 
+		newSize, err := readResizeParam(c.String("resize"))
+		if err != nil {
+			return err
+		}
+
 		waterMarker := &WaterMarker{
 			Text:              text,
 			HorizontalSpacing: c.Float64("horizontal-spacing") * scale,
 			VerticalSpacing:   c.Float64("vertical-spacing") * scale,
 			FontSize:          c.Float64("font-size") * scale,
-			OutputDPI:         c.Int("output-dpi"),
+			OutputDPI:         72,
 			FontName:          c.String("font"),
 			Color:             color,
+			Resize:            newSize,
 		}
 
 		for i := 1; i < c.NArg(); i++ {

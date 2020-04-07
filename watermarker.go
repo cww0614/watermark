@@ -9,6 +9,7 @@ import (
 	"os"
 	"path/filepath"
 
+	"github.com/disintegration/imaging"
 	"gonum.org/v1/plot/vg"
 	"gonum.org/v1/plot/vg/vgimg"
 )
@@ -21,6 +22,12 @@ type WaterMarker struct {
 	OutputDPI         int
 	FontName          string
 	Color             color.Color
+	Resize            Size
+}
+
+type Size struct {
+	Width  int
+	Height int
 }
 
 func l(v float64) vg.Length {
@@ -92,7 +99,32 @@ func (w *WaterMarker) mark(img image.Image, format string, out io.Writer) error 
 		}
 	}
 
+	w.resize(&c)
+
 	return writeCanvas(c, format, out)
+}
+
+func (w *WaterMarker) resize(c **vgimg.Canvas) {
+	width := w.Resize.Width
+	height := w.Resize.Height
+	if width == 0 && height == 0 {
+		return
+	}
+
+	dstImg := imaging.Resize((*c).Image(), width, height, imaging.Lanczos)
+
+	width = dstImg.Rect.Max.X
+	height = dstImg.Rect.Max.Y
+
+	lWidth := l(float64(width))
+	lHeight := l(float64(height))
+
+	*c = vgimg.NewWith(
+		vgimg.UseWH(lWidth, lHeight),
+		vgimg.UseDPI(w.OutputDPI),
+	)
+
+	(*c).DrawImage(vg.Rectangle{Max: vg.Point{X: lWidth, Y: lHeight}}, dstImg)
 }
 
 func writeCanvas(c *vgimg.Canvas, format string, out io.Writer) error {
