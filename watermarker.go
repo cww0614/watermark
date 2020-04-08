@@ -40,7 +40,12 @@ func (w *WaterMarker) Mark(inputFilename, outputFilename string) error {
 		return err
 	}
 
-	defer input.Close()
+	img, _, err := image.Decode(input)
+	if err != nil {
+		return err
+	}
+
+	input.Close()
 
 	output, err := os.Create(outputFilename)
 	if err != nil {
@@ -50,11 +55,6 @@ func (w *WaterMarker) Mark(inputFilename, outputFilename string) error {
 	defer output.Close()
 
 	ext := filepath.Ext(outputFilename)
-
-	img, _, err := image.Decode(input)
-	if err != nil {
-		return err
-	}
 
 	return w.mark(img, ext, output)
 }

@@ -21,11 +21,16 @@ VERSION:
 GLOBAL OPTIONS:
    --color value, -c value               Color for watermark text, name or #rrggbb (default: "blue")
    --vertical-spacing value, -e value    Vertical spacing between watermarks (default: 40)
-   --resize value, -r value              Resize the output image to specified width and height. To keep aspect ratio, set either width or height to 0 (default: "0x0")
+   --resize value, -r value              Resize the output image to specified width and height. To keep aspect ratio, se
+t either width or height to 0 (default: "0x0")
    --font value, -f value                Font for watermark text (default: "Courier")
    --font-size value, -S value           Font size for watermark text (default: 64)
    --horizontal-spacing value, -o value  Horizontal spacing between watermarks (default: 40)
    --scale value, -s value               Scale watermarks (default: 1)
    --transparency value, -t value        Transparency of watermark (default: 0.9)
+   --output value                        Specify output names. This flag can be repeated many times, input and output na
+mes will be matched in order (1st to 1st, 2nd to 2nd, ...). Unspecified outputs will have the name "input name.watermark
+ed.extension"
    --version, -v                         print the version (default: false)
 #+END_EXAMPLE
+

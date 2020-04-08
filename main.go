@@ -79,10 +79,14 @@ func main() {
 				Usage:   "Scale watermarks",
 			},
 			&cli.Float64Flag{
-				Name:    "transparency, t",
+				Name:    "transparency",
 				Aliases: []string{"t"},
 				Value:   0.90,
 				Usage:   "Transparency of watermark",
+			},
+			&cli.StringSliceFlag{
+				Name:  "output",
+				Usage: `Specify output names. This flag can be repeated many times, input and output names will be matched in order (1st to 1st, 2nd to 2nd, ...). Unspecified outputs will have the name "input name.watermarked.extension"`,
 			},
 		},
 	}
@@ -119,10 +123,16 @@ func main() {
 			Resize:            newSize,
 		}
 
+		outputNames := c.StringSlice("output")
+
 		for i := 1; i < c.NArg(); i++ {
 			file := c.Args().Get(i)
 
 			output := outputFilename(file)
+			if i <= len(outputNames) {
+				output = outputNames[i-1]
+			}
+
 			err := waterMarker.Mark(file, output)
 			if err != nil {
 				return err
