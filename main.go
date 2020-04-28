@@ -58,7 +58,7 @@ func main() {
 				Name:    "font",
 				Aliases: []string{"f"},
 				Value:   "Courier",
-				Usage:   "Font for watermark text",
+				Usage:   "Font for watermark text, could be a path to a truetype font",
 			},
 			&cli.Float64Flag{
 				Name:    "font-size",

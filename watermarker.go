@@ -5,11 +5,14 @@ import (
 	"image"
 	"image/color"
 	"io"
+	"io/ioutil"
 	"math"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/disintegration/imaging"
+	"github.com/golang/freetype/truetype"
 	"gonum.org/v1/plot/vg"
 	"gonum.org/v1/plot/vg/vgimg"
 )
@@ -34,7 +37,39 @@ func l(v float64) vg.Length {
 	return vg.Length(v)
 }
 
+func (w *WaterMarker) maybeLoadFont() error {
+	if strings.Index(w.FontName, "/") >= 0 || strings.Index(w.FontName, "\\") >= 0 {
+		f, err := os.Open(w.FontName)
+		if err != nil {
+			return fmt.Errorf("open font: %w", err)
+		}
+
+		defer f.Close()
+
+		fontData, err := ioutil.ReadAll(f)
+		if err != nil {
+			return fmt.Errorf("load font: %w", err)
+		}
+
+		font, err := truetype.Parse(fontData)
+		if err != nil {
+			return err
+		}
+
+		vg.AddFont("custom", font)
+
+		w.FontName = "custom"
+	}
+
+	return nil
+}
+
 func (w *WaterMarker) Mark(inputFilename, outputFilename string) error {
+	err := w.maybeLoadFont()
+	if err != nil {
+		return err
+	}
+
 	input, err := os.Open(inputFilename)
 	if err != nil {
 		return err
